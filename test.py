@@ -40,9 +40,9 @@ def crawler(n):
         browser.find_element_by_xpath("//*[@id='omnibox-directions']/div/div[2]/div/div/div[1]/div[2]/button/img").click()
         distances = browser.find_element_by_xpath("//*[@id='section-directions-trip-0']/div/div[1]/div[1]/div[2]/div")
         distance = "您距離此餐廳大約:" + distances.text
-        #picture = card.find("img").get("data-src")
+        #picture = card.find("img").get("src")
         #if picture == None:
-        #    picture = card.find("img").get("src")
+        #    picture = card.find("img").get("data-src")
         if rate == None:
             content += f"{name} \n暫無評分 \n{address} \n{distance}\n\n"
             # 將取得的餐廳名稱、評價及地址連結一起，並且指派給content變數
