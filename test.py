@@ -18,7 +18,7 @@ def crawler(n):
     root = BeautifulSoup(data.text, "lxml")
     #data.encoding = "UTF-8"
     # 爬取前五筆餐廳卡片資料
-    cards = root.find_all("div", class_="jsx-4284778824 restaurant-info", limit=5)
+    cards = root.find_all("div", class_="jsx-56438851 info-rows", limit=5)
     content = ""
     url_distance = "https://www.google.com.tw/maps/dir/" + "桃園市中壢區中和路139號"
     chrome_options = webdriver.ChromeOptions()
@@ -31,23 +31,23 @@ def crawler(n):
     browser.implicitly_wait(10)
     browser.get(url_distance)
     for card in cards:
-        name = card.find("a", class_="jsx-4284778824 title-text").text # 餐廳名稱
+        name = card.find("a", class_="jsx-56438851 title-text").text # 餐廳名稱
         rate = card.find("div", class_="jsx-1207467136 text") # 餐廳評價
-        address = card.find("div", class_="jsx-4284778824 address-row").text  # 餐廳地址
+        address = card.find("div", class_="jsx-56438851 address-row").text  # 餐廳地址
         search = browser.find_element_by_xpath("//*[@id='sb_ifc51']/input")
         search.send_keys(address)
         search.send_keys(Keys.ENTER)
         browser.find_element_by_xpath("//*[@id='omnibox-directions']/div/div[2]/div/div/div[1]/div[2]/button/img").click()
         distances = browser.find_element_by_xpath("//*[@id='section-directions-trip-0']/div/div[1]/div[1]/div[2]/div")
         distance = "您距離此餐廳大約:" + distances.text
-        picture = card.find("img").get("data-src")
-        if picture == None:
-            picture = card.find("img").get("src")
+        #picture = card.find("img").get("data-src")
+        #if picture == None:
+        #    picture = card.find("img").get("src")
         if rate == None:
-            content += f"{name} \n暫無評分 \n{address} \n{distance}\n{picture}\n\n"
+            content += f"{name} \n暫無評分 \n{address} \n{distance}\n\n"
             # 將取得的餐廳名稱、評價及地址連結一起，並且指派給content變數
         else:
-            content += f"{name} \n{rate.text}顆星 \n{address} \n{distance}\n{picture}\n\n"
+            content += f"{name} \n{rate.text}顆星 \n{address} \n{distance}\n\n"
             # 將取得的餐廳名稱、評價及地址連結一起，並且指派給content變數
         search.clear()
     browser.quit()
